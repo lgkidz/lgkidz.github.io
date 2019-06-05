@@ -28,32 +28,60 @@
                 position: relative;
             }
 
-            .top-right {
-                position: absolute;
-                right: 10px;
-                top: 18px;
-            }
-
             .content {
                 text-align: center;
             }
 
-            .title {
-                font-size: 84px;
+            .ml9 {
+              position: relative;
+              font-weight: 200;
+              font-size: 4em;
             }
 
-            .m-b-md {
-                margin-bottom: 30px;
+            .ml9 .text-wrapper {
+              position: relative;
+              display: inline-block;
+              padding-top: 0.2em;
+              padding-right: 0.05em;
+              padding-bottom: 0.1em;
+              overflow: hidden;
+            }
+
+            .ml9 .letter {
+              transform-origin: 50% 100%;
+              display: inline-block;
+              line-height: 1em;
             }
         </style>
     </head>
     <body>
         <div class="flex-center position-ref full-height">
             <div class="content">
-                <div class="title m-b-md">
-                    Hi there!
-                </div>
+              <h1 class="ml9">
+                <span class="text-wrapper">
+                  <span class="letters">Hello there</span>
+                </span>
+              </h1>
             </div>
         </div>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/2.0.2/anime.min.js"></script>
+        <script type="text/javascript">
+          // Wrap every letter in a span
+          $('.ml9 .letters').each(function(){
+          $(this).html($(this).text().replace(/([^\x00-\x80]|\w)/g, "<span class='letter'>$&</span>"));
+          });
+
+          anime.timeline({loop: false})
+          .add({
+            targets: '.ml9 .letter',
+            scale: [0, 1],
+            duration: 1200,
+            elasticity: 600,
+            delay: function(el, i) {
+              return 45 * (i+1)
+            }
+          });
+        </script>
     </body>
 </html>
