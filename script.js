@@ -89,6 +89,7 @@ function handleTouchStart(evt) {
     const firstTouch = getTouches(evt)[0];
     yDown = firstTouch.clientY;
     console.log("touched! " + yDown);
+    alert("touched! " + yDown);
 };
 
 function handleTouchMove(evt) {
@@ -104,7 +105,8 @@ function handleTouchMove(evt) {
 
     }
     console.log(yDiff);
-    
+    alert(yDiff);
+
     /* reset values */
     yDown = null;
 };
