@@ -52,6 +52,7 @@ function hideDescriptionText(){
     });
 }
 
+//Hanlde scrolling on non-touchscreen devices
 var scroll_bit = -1;
 document.addEventListener("wheel", function (e) {
   hideDescriptionText();
@@ -72,6 +73,41 @@ document.addEventListener("wheel", function (e) {
       animateText(lines[scroll_bit]);
     }
 }, true);
+
+//Hanlde swiping on touchscreen devices
+document.addEventListener('touchstart', handleTouchStart, false);
+document.addEventListener('touchmove', handleTouchMove, false);
+
+var yDown = null;
+
+function getTouches(evt) {
+  return evt.touches ||             // browser API
+         evt.originalEvent.touches; // jQuery
+}
+
+function handleTouchStart(evt) {
+    const firstTouch = getTouches(evt)[0];
+    yDown = firstTouch.clientY;
+    console.log("touched! " + yDown);
+};
+
+function handleTouchMove(evt) {
+    if (!yDown ) {
+        return;
+    }
+
+    var yUp = evt.touches[0].clientY;
+    var yDiff = yDown - yUp;
+    if ( yDiff > 0 ) {
+
+    } else {
+
+    }
+    console.log(yDiff);
+    
+    /* reset values */
+    yDown = null;
+};
 
 var lines = [
   "once upon a time,",
