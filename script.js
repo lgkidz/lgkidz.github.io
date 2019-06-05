@@ -86,10 +86,8 @@ function getTouches(evt) {
 }
 
 function handleTouchStart(evt) {
-    const firstTouch = getTouches(evt)[0];
+    var firstTouch = getTouches(evt)[0];
     yDown = firstTouch.clientY;
-    console.log("touched! " + yDown);
-    alert("touched! " + yDown);
 };
 
 function handleTouchMove(evt) {
@@ -99,13 +97,28 @@ function handleTouchMove(evt) {
 
     var yUp = evt.touches[0].clientY;
     var yDiff = yDown - yUp;
-    if ( yDiff > 0 ) {
 
-    } else {
-
+    hideDescriptionText();
+    if(scroll_bit == -1 && yDiff < 0){
+      scroll_bit = -1
     }
-    console.log(yDiff);
-    alert(yDiff);
+    else if((scroll_bit == lines.length - 1) && yDiff > 0){
+      scroll_bit = lines.length - 1;
+    }
+    else{
+      if ( yDiff > 0 ) {
+          scroll_bit ++;
+      } else {
+          scroll_bit --;
+      }
+    }
+    console.log(scroll_bit);
+    if(scroll_bit == -1){
+      animateText("Hi there!");
+    }
+    else{
+      animateText(lines[scroll_bit]);
+    }
 
     /* reset values */
     yDown = null;
