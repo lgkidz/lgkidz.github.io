@@ -135,7 +135,7 @@ function handleTouchMove(evt) {
     var yUp = evt.touches[0].clientY;
     var yDiff = yDown - yUp;
 
-    var swipeY = parseInt(yDiff/50);
+    var swipeY = parseInt(yDiff/75);
     if(swipeY >=1){
       scroll_bit++;
       yDown = yUp;
