@@ -36,7 +36,7 @@ function animateText(text){
 }
 function showDescriptionText(end){
   if(end){
-    var anchor = '<a href="' + myGitHubLink +'">' + 'See more of my projects at:' + myGitHubLink + '</a>';
+    var anchor = '<a href="' + myGitHubLink +'">' + 'See more of my projects at: ' + myGitHubLink + '</a>';
     $('#description').html(anchor);
     $('#description a').each(function(){
     $(this).html($(this).text().replace(/([^\x00-\x20]|\w)/g, "<span class='letterdes'>$&</span>"));
@@ -77,16 +77,7 @@ function showDescriptionText(end){
 }
 
 function hideDescriptionText(){
-  anime.timeline({loop: false})
-  .add({
-      targets: '.letterdes',
-      scale: [1,0.3],
-      opacity: 0,
-      duration: animationDuration,
-      easing: "easeOutExpo",delay: function(el, i) {
-        return letterAnimationDelay/5 * (i+1)
-      }
-    });
+    $('#description').html("");
 }
 
 function changeBg(color){
@@ -102,13 +93,11 @@ function changeBg(color){
 //Hanlde scrolling on non-touchscreen devices
 var scroll_bit = -1;
 document.addEventListener("wheel", function (e) {
-  hideDescriptionText();
   if(scroll_bit == -1 && e.deltaY < 0){
     scroll_bit = -1
   }
   else if((scroll_bit == lines.length - 1) && e.deltaY > 0){
     scroll_bit = lines.length - 1;
-    showDescriptionText(true);
   }
   else{
     scroll_bit += e.deltaY/100;
@@ -120,6 +109,12 @@ document.addEventListener("wheel", function (e) {
     else{
       animateText(lines[scroll_bit]);
       changeBg(colors[scroll_bit]);
+      if(scroll_bit == lines.length - 1){
+        showDescriptionText(true);
+      }
+      else{
+        hideDescriptionText();
+      }
     }
     generateRandomBackgroundColor();
 }, true);
@@ -138,7 +133,7 @@ function getTouches(evt) {
 function handleTouchStart(evt) {
     var firstTouch = getTouches(evt)[0];
     yDown = firstTouch.clientY;
-    hideDescriptionText();
+
 }
 
 var oldPosition = -1;
@@ -165,7 +160,7 @@ function handleTouchMove(evt) {
     }
     else if (scroll_bit >= lines.length - 1) {
       scroll_bit = lines.length - 1;
-      showDescriptionText(true);
+
     }
 
     if(scroll_bit != oldPosition){
@@ -176,6 +171,12 @@ function handleTouchMove(evt) {
       else{
         animateText(lines[scroll_bit]);
         changeBg(colors[scroll_bit]);
+        if(scroll_bit == lines.length - 1){
+          showDescriptionText(true);
+        }
+        else{
+          hideDescriptionText();
+        }
       }
       oldPosition = scroll_bit;
       generateRandomBackgroundColor();
