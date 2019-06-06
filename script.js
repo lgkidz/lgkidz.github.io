@@ -2,6 +2,7 @@ const animationDuration = 400;
 const letterAnimationDelay = 40
 const colorWhite = "#ffffff";
 const defaultTextColor = "#636b6f";
+const myGitHubLink = "https://github.com/lgkidz/";
 
 $('document').ready(function(){
   generateRandomBackgroundColor();
@@ -33,23 +34,46 @@ function animateText(text){
     }
   });
 }
-function showDescriptionText(){
-  $('#description').each(function(){
-  $(this).html($(this).text().replace(/([^\x00-\x20]|\w)/g, "<span class='letterdes'>$&</span>"));
-});
-
-anime.timeline({loop: false})
-  .add({
-    targets: '.letterdes',
-    scale: [0.3,1],
-    opacity: [0,1],
-    translateZ: 0,
-    easing: "easeOutExpo",
-    duration: animationDuration,
-    delay: function(el, i) {
-      return letterAnimationDelay * (i+1)
-    }
+function showDescriptionText(end){
+  if(end){
+    var anchor = '<a href="' + myGitHubLink +'">' + 'See more of my projects at:' + myGitHubLink + '</a>';
+    $('#description').html(anchor);
+    $('#description a').each(function(){
+    $(this).html($(this).text().replace(/([^\x00-\x20]|\w)/g, "<span class='letterdes'>$&</span>"));
   });
+
+  anime.timeline({loop: false})
+    .add({
+      targets: '.letterdes',
+      scale: [0.3,1],
+      opacity: [0,1],
+      translateZ: 0,
+      color: invertColor(colors[scroll_bit],true),
+      easing: "easeOutExpo",
+      duration: animationDuration,
+      delay: function(el, i) {
+        return letterAnimationDelay/5 * (i+1)
+      }
+    });
+  }
+  else{
+    $('#description').each(function(){
+    $(this).html($(this).text().replace(/([^\x00-\x20]|\w)/g, "<span class='letterdes'>$&</span>"));
+  });
+
+  anime.timeline({loop: false})
+    .add({
+      targets: '.letterdes',
+      scale: [0.3,1],
+      opacity: [0,1],
+      translateZ: 0,
+      easing: "easeOutExpo",
+      duration: animationDuration,
+      delay: function(el, i) {
+        return letterAnimationDelay * (i+1)
+      }
+    });
+  }
 }
 
 function hideDescriptionText(){
@@ -60,7 +84,7 @@ function hideDescriptionText(){
       opacity: 0,
       duration: animationDuration,
       easing: "easeOutExpo",delay: function(el, i) {
-        return letterAnimationDelay * (i+1)
+        return letterAnimationDelay/5 * (i+1)
       }
     });
 }
@@ -71,10 +95,7 @@ function changeBg(color){
     targets: 'body',
     background: color,
     easing: 'easeOutQuad',
-    duration: function(){
-      generateRandomBackgroundColor();
-      return animationDuration;
-    }
+    duration: animationDuration
   });
 }
 
@@ -87,6 +108,7 @@ document.addEventListener("wheel", function (e) {
   }
   else if((scroll_bit == lines.length - 1) && e.deltaY > 0){
     scroll_bit = lines.length - 1;
+    showDescriptionText(true);
   }
   else{
     scroll_bit += e.deltaY/100;
@@ -99,6 +121,7 @@ document.addEventListener("wheel", function (e) {
       animateText(lines[scroll_bit]);
       changeBg(colors[scroll_bit]);
     }
+    generateRandomBackgroundColor();
 }, true);
 
 //Hanlde swiping on touchscreen devices
@@ -118,9 +141,6 @@ function handleTouchStart(evt) {
     hideDescriptionText();
 }
 
-
-
-var touchAnimated = true;
 var oldPosition = -1;
 function handleTouchMove(evt) {
     if (!yDown ) {
@@ -145,6 +165,7 @@ function handleTouchMove(evt) {
     }
     else if (scroll_bit >= lines.length - 1) {
       scroll_bit = lines.length - 1;
+      showDescriptionText(true);
     }
 
     if(scroll_bit != oldPosition){
@@ -156,8 +177,8 @@ function handleTouchMove(evt) {
         animateText(lines[scroll_bit]);
         changeBg(colors[scroll_bit]);
       }
-      touchAnimated = true;
       oldPosition = scroll_bit;
+      generateRandomBackgroundColor();
     }
 }
 
@@ -224,8 +245,6 @@ var lines = [
   "there might be something waiting for ya",
   "keep scrolling",
   "keep scrolling",
-  "just keep scrolling",
-  "just keep scrolling",
   "just keep scrolling",
   "just keep scrolling",
   "just keep scrolling",
