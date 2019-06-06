@@ -72,12 +72,7 @@ function changeBg(color){
     background: color,
     easing: 'easeOutQuad',
     duration: function(){
-      if(scroll_bit != -1){
-        if(scroll_bit == lines.length - 1){
-          generateRandomBackgroundColor();
-        }
-        return letterAnimationDelay * lines[scroll_bit].length;
-      }
+      generateRandomBackgroundColor();
       return animationDuration;
     }
   });
